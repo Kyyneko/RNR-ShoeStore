@@ -19,6 +19,7 @@ Untuk menjalankan backend, Anda perlu menginstal beberapa dependensi. Pastikan A
    pip install -r requirements.txt
 
 3. **Konfigurasi Database**
+
     Menambahkan Kolom atau Mengubah Struktur Database
     Untuk menambahkan kolom baru atau melakukan perubahan pada struktur tabel, buatlah file migrasi terlebih dahulu :
     ```bash
