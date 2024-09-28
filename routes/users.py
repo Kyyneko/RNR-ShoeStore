@@ -6,6 +6,11 @@ users_bp = Blueprint('users', __name__)
 @users_bp.route('/api/users/register', methods=['POST'])
 def register():
     data = request.json
+
+    existing_user = User.query.filter_by(username=data['username']).first()
+    if existing_user:
+        return jsonify({'message': 'Username already exists'}), 409
+    
     new_user = User(
         username=data['username'],
         password=data['password'],
