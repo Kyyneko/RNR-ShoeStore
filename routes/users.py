@@ -1,7 +1,14 @@
 from flask import Blueprint, request, jsonify
+from datetime import datetime
 from models import db, User
+import pytz
 
 users_bp = Blueprint('users', __name__)
+
+def get_current_time_wita():
+    # Mendapatkan waktu saat ini dalam zona waktu WITA (UTC+8)
+    wita_tz = pytz.timezone('Asia/Makassar')
+    return datetime.now(wita_tz)
 
 @users_bp.route('/api/users/register', methods=['POST'])
 def register():
@@ -17,9 +24,8 @@ def register():
         email=data['email'],
         first_name=data.get('first_name'),  
         last_name=data.get('last_name'),   
-        address=data.get('address'),
-        phone=data.get('phone'),
-        role=data.get('role', 'User')
+        role=data.get('role', 'User'),
+        data_added=get_current_time_wita()
     )
     db.session.add(new_user)
     db.session.commit()
@@ -44,6 +50,7 @@ def update_profile(user_id):
         user.last_name = data.get('last_name', user.last_name)  
         user.address = data.get('address', user.address)
         user.phone = data.get('phone', user.phone)
+        user.last_updated = get_current_time_wita()
         db.session.commit()
         return jsonify({'message': 'Profile updated successfully'}), 200
     return jsonify({'message': 'User not found'}), 404
