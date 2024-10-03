@@ -47,7 +47,7 @@ def get_payment(payment_id):
             'order_id': payment.order_id,
             'payment_method': payment.payment_method,
             'payment_status': payment.payment_status,
-            'payment_date': payment.payment_date.isoformat()
+            'payment_date': payment.payment_date
         }), 200
     return jsonify({'message': 'Payment not found'}), 404
 
@@ -62,7 +62,7 @@ def get_payments():
                 'order_id': payment.order_id,
                 'payment_method': payment.payment_method,
                 'payment_status': payment.payment_status,
-                'payment_date': payment.payment_date.isoformat()
+                'payment_date': payment.payment_date
             })
         return jsonify(result), 200
     return jsonify({'message': 'No payments found'}), 404

@@ -29,7 +29,6 @@ class Order(db.Model):
     order_date = db.Column(db.Date, nullable=False)
     amount = db.Column(db.Float, nullable=False)
     order_status = db.Column(db.String(50), nullable=False)
-    date_added = db.Column(db.DateTime, default=get_current_time_wita)
     last_updated = db.Column(db.DateTime, default=get_current_time_wita, onupdate=get_current_time_wita)
 
 class Payment(db.Model):
@@ -68,6 +67,7 @@ class Cart(db.Model):
     id_user = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     date_added = db.Column(db.DateTime, default=get_current_time_wita)
+    last_updated = db.Column(db.DateTime, default=get_current_time_wita, onupdate=get_current_time_wita)
 
 class Wishlist(db.Model):
     id_wishlist = db.Column(db.Integer, primary_key=True)

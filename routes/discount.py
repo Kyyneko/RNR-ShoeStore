@@ -1,8 +1,13 @@
 from flask import Blueprint, request, jsonify
 from models import db, Discount, ShoeDetail
 from datetime import datetime
+import pytz
 
 discount_bp = Blueprint('discount', __name__)
+
+def get_current_time_wita():
+    wita_tz = pytz.timezone('Asia/Makassar')
+    return datetime.now(wita_tz)
 
 @discount_bp.route('/api/discount', methods=['POST'])
 def add_discount():
@@ -30,6 +35,7 @@ def add_discount():
         id_shoe=data['id_shoe'],
         discount_code=data['discount_code'],
         discount_value=data['discount_value'],
+        date_added=get_current_time_wita(),
         expiration_date=expiration_date
     )
     db.session.add(new_discount)
@@ -86,6 +92,7 @@ def get_discount(id_discount):
             'id_shoe': discount.id_shoe,
             'discount_code': discount.discount_code,
             'discount_value': discount.discount_value,
+            'date_added': discount.date_added,
             'expiration_date': discount.expiration_date.strftime('%Y-%m-%d'),
         }), 200
     return jsonify({'message': 'Discount not found'}), 404
@@ -100,6 +107,7 @@ def get_discounts():
             'id_shoe': discount.id_shoe,
             'discount_code': discount.discount_code,
             'discount_value': discount.discount_value,
+            'date_added': discount.date_added,
             'expiration_date': discount.expiration_date.strftime('%Y-%m-%d'),
         })
     return jsonify(result), 200

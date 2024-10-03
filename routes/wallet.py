@@ -6,6 +6,10 @@ import pytz
 wallet_bp = Blueprint('wallet', __name__)
 
 def get_current_time_wita():
+    wita_tz = pytz.timezone('Asia/Makassar')
+    return datetime.now(wita_tz)
+
+def get_current_time_wita():
     # Mendapatkan waktu saat ini dalam zona waktu WITA (UTC+8)
     wita_tz = pytz.timezone('Asia/Makassar')
     return datetime.now(wita_tz)
@@ -18,7 +22,7 @@ def get_wallet(id_wallet):
             'id_wallet': wallet.id_wallet,
             'id_user': wallet.id_user,
             'balance': wallet.balance,
-            'last_updated': wallet.last_updated.isoformat(),
+            'last_updated': wallet.last_updated,
             'currency': wallet.currency
         }), 200
     return jsonify({'message': 'Wallet not found'}), 404
@@ -74,7 +78,7 @@ def get_wallet_item(id_wallet):
             'id_wallet': wallet.id_wallet,
             'id_user': wallet.id_user,
             'balance': wallet.balance,
-            'last_updated': wallet.last_updated.isoformat(),
+            'last_updated': wallet.last_updated,
             'currency': wallet.currency
         }), 200
     return jsonify({'message': 'Wallet not found'}), 404
@@ -88,7 +92,7 @@ def get_all_wallets():
             'id_wallet': wallet.id_wallet,
             'id_user': wallet.id_user,
             'balance': wallet.balance,
-            'last_updated': wallet.last_updated.isoformat(),
+            'last_updated': wallet.last_updated,
             'currency': wallet.currency
         })
     return jsonify(result), 200

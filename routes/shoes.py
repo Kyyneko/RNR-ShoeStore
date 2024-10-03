@@ -1,7 +1,13 @@
 from flask import Blueprint, request, jsonify
+from datetime import datetime
 from models import db, ShoeDetail, ShoeCategory
+import pytz
 
 shoes_bp = Blueprint('shoes', __name__)
+
+def get_current_time_wita():
+    wita_tz = pytz.timezone('Asia/Makassar')
+    return datetime.now(wita_tz)
 
 @shoes_bp.route('/api/shoes', methods=['POST'])
 def add_shoe_detail():
@@ -16,8 +22,11 @@ def add_shoe_detail():
         shoe_name=data['shoe_name'],
         shoe_price=data['shoe_price'],
         shoe_size=data['shoe_size'],
-        stock=data['stock']
+        stock=data['stock'],
+        date_added=get_current_time_wita(),
+        last_updated=get_current_time_wita()
     )
+
     db.session.add(new_shoe)
     db.session.commit()
     return jsonify({'message': 'Shoe detail added successfully'}), 201
@@ -41,6 +50,8 @@ def update_shoe_detail(shoe_detail_id):
     shoe.shoe_size = data.get('shoe_size', shoe.shoe_size)
     shoe.stock = data.get('stock', shoe.stock)
     
+    shoe.last_updated = get_current_time_wita() 
+    
     db.session.commit()
     return jsonify({'message': 'Shoe detail updated successfully'}), 200
 
@@ -62,20 +73,26 @@ def get_shoe_detail(shoe_detail_id):
             'shoe_name': shoe.shoe_name,
             'shoe_price': shoe.shoe_price,
             'shoe_size': shoe.shoe_size,
-            'stock': shoe.stock
+            'stock': shoe.stock,
+            'date_added': shoe.date_added,
+            'last_updated': shoe.last_updated,
         }), 200
     return jsonify({'message': 'Shoe detail not found'}), 404
 
 @shoes_bp.route('/api/shoes', methods=['GET'])
 def get_all_shoes():
     shoes = ShoeDetail.query.all()
-    result = []
-    for shoe in shoes:
-        result.append({
-            'category_id': shoe.category_id,
-            'shoe_name': shoe.shoe_name,
-            'shoe_price': shoe.shoe_price,
-            'shoe_size': shoe.shoe_size,
-            'stock': shoe.stock
-        })
-    return jsonify({'message':'No Shoe detail found'}), 200
+    if shoes:
+        result = []
+        for shoe in shoes:
+            result.append({
+                'category_id': shoe.category_id,
+                'shoe_name': shoe.shoe_name,
+                'shoe_price': shoe.shoe_price,
+                'shoe_size': shoe.shoe_size,
+                'stock': shoe.stock,
+                'date_added': shoe.date_added,
+                'last_updated': shoe.last_updated
+            })
+        return jsonify(result), 200
+    return jsonify({'message': 'No Shoe detail found'}), 404

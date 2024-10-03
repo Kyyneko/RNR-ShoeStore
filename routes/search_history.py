@@ -25,7 +25,7 @@ def get_search_history(user_id):
                 'id_search': search.id_search,
                 'id_user': search.id_user,
                 'search_term': search.search_term,
-                'date_searched': search.date_searched.isoformat()
+                'date_searched': search.date_searched
             })
         return jsonify(result), 200
     return jsonify({'message': 'No search history found'}), 404
@@ -78,7 +78,7 @@ def get_search_history_item(id_search):
             'id_search': search.id_search,
             'id_user': search.id_user,
             'search_term': search.search_term,
-            'date_searched': search.date_searched.isoformat()
+            'date_searched': search.date_searched
         }), 200
     return jsonify({'message': 'Search history not found'}), 404
 
@@ -91,6 +91,6 @@ def get_all_search_history():
             'id_search': search.id_search,
             'id_user': search.id_user,
             'search_term': search.search_term,
-            'date_searched': search.date_searched.isoformat()
+            'date_searched': search.date_searched
         })
     return jsonify(result), 200

@@ -1,8 +1,13 @@
 from flask import Blueprint, request, jsonify
 from models import db, Order, User, ShoeDetail
 from datetime import datetime
+import pytz
 
 orders_bp = Blueprint('orders', __name__)
+
+def get_current_time_wita():
+    wita_tz = pytz.timezone('Asia/Makassar')
+    return datetime.now(wita_tz)
 
 @orders_bp.route('/api/orders', methods=['POST'])
 def create_order():
@@ -29,7 +34,8 @@ def create_order():
         shoe_detail_id=data['shoe_detail_id'],
         order_date=order_date,
         amount=data['amount'],
-        order_status=data['order_status']
+        order_status=data['order_status'],
+        last_updated=get_current_time_wita()
     )
     try:
         db.session.add(new_order)
@@ -55,6 +61,7 @@ def update_order_status(order_id):
     order = Order.query.get(order_id)
     if order:
         order.order_status = data.get('order_status', order.order_status)
+        order.last_updated = get_current_time_wita()
         db.session.commit()
         return jsonify({'message': 'Order status updated successfully'}), 200
     return jsonify({'message': 'Order not found'}), 404
@@ -67,9 +74,10 @@ def get_order(order_id):
             'order_id': order.order_id,
             'user_id': order.user_id,
             'shoe_detail_id': order.shoe_detail_id,
-            'order_date': order.order_date.isoformat(),
+            'order_date': order.order_date,
             'amount': order.amount,
-            'order_status': order.order_status
+            'order_status': order.order_status,
+            'last_updated': order.last_updated
         }), 200
     return jsonify({'message': 'Order not found'}), 404
 
@@ -83,9 +91,10 @@ def get_orders():
                 'order_id': order.order_id,
                 'user_id': order.user_id,
                 'shoe_detail_id': order.shoe_detail_id,
-                'order_date': order.order_date.isoformat(),
+                'order_date': order.order_date,
                 'amount': order.amount,
-                'order_status': order.order_status
+                'order_status': order.order_status,
+                'last_updated': order.last_updated
             })
         return jsonify(result), 200
     return jsonify({'message': 'No orders found'}), 404

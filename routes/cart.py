@@ -21,7 +21,8 @@ def get_cart(user_id):
                 'id_shoe': item.id_shoe,
                 'id_user': item.id_user,
                 'quantity': item.quantity,
-                'date_added': item.date_added.isoformat()
+                'date_added': item.date_added,
+                'last_updated': item.last_updated
             })
         return jsonify(result), 200
     return jsonify({'message': 'Cart is empty'}), 404
@@ -47,7 +48,8 @@ def add_to_cart():
         id_shoe=data['id_shoe'],
         id_user=data['id_user'],
         quantity=data['quantity'],
-        date_added=get_current_time_wita()
+        date_added=get_current_time_wita(),
+        last_updated=get_current_time_wita()
     )
     db.session.add(new_item)
     db.session.commit()
@@ -79,8 +81,7 @@ def update_cart(id_cart):
         item.id_shoe = data.get('id_shoe', item.id_shoe)
         item.id_user = data.get('id_user', item.id_user)
         item.quantity = data.get('quantity', item.quantity)
-
-        item.date_added = get_current_time_wita()
+        item.last_updated = get_current_time_wita()
 
         db.session.commit()
         return jsonify({'message': 'Cart updated successfully'}), 200
@@ -96,7 +97,8 @@ def get_cart_item(id_cart):
             'id_shoe': item.id_shoe,
             'id_user': item.id_user,
             'quantity': item.quantity,
-            'date_added': item.date_added.isoformat()
+            'date_added': item.date_added,
+            'last_updated': item.last_updated
         }), 200
     return jsonify({'message': 'Item not found'}), 404
 
@@ -110,6 +112,7 @@ def get_all_cart_items():
             'id_shoe': item.id_shoe,
             'id_user': item.id_user,
             'quantity': item.quantity,
-            'date_added': item.date_added.isoformat()
+            'date_added': item.date_added,
+            'last_updated': item.last_updated
         })
     return jsonify(result), 200

@@ -20,7 +20,7 @@ def get_wishlist(user_id):
                 'id_wishlist': item.id_wishlist,
                 'id_shoe': item.id_shoe,
                 'id_user': item.id_user,
-                'date_added': item.date_added.isoformat()
+                'date_added': item.date_added
             })
         return jsonify(result), 200
     return jsonify({'message': 'Wishlist is empty'}), 404
@@ -75,7 +75,7 @@ def get_wishlist_item(id_wishlist):
             'id_wishlist': item.id_wishlist,
             'id_shoe': item.id_shoe,
             'id_user': item.id_user,
-            'date_added': item.date_added.isoformat()
+            'date_added': item.date_added
         }), 200
     return jsonify({'message': 'Item not found'}), 404
 

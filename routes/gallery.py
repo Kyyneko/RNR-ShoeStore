@@ -1,7 +1,13 @@
 from flask import Blueprint, request, jsonify
+from datetime import datetime
 from models import db, Gallery, ShoeDetail
+import pytz
 
 gallery_bp = Blueprint('gallery', __name__)
+
+def get_current_time_wita():
+    wita_tz = pytz.timezone('Asia/Makassar')
+    return datetime.now(wita_tz)
 
 @gallery_bp.route('/api/gallery', methods=['POST'])
 def add_image():
@@ -14,7 +20,9 @@ def add_image():
 
     new_image = Gallery(
         shoe_detail_id=data['shoe_detail_id'],
-        image_url=data['image_url']
+        image_url=data['image_url'],
+        date_added=get_current_time_wita(),
+        last_updated=get_current_time_wita()
     )
     db.session.add(new_image)
     db.session.commit()
@@ -31,6 +39,7 @@ def update_image(gallery_id):
             if not shoe_detail:
                 return jsonify({'message': 'Shoe Detail ID does not exist'}), 400
             image.shoe_detail_id = data['shoe_detail_id']
+            image.last_updated = get_current_time_wita()
         
         image.image_url = data.get('image_url', image.image_url)
         db.session.commit()
@@ -53,7 +62,9 @@ def get_image(gallery_id):
         return jsonify({
             'gallery_id': image.gallery_id,
             'shoe_detail_id': image.shoe_detail_id,
-            'image_url': image.image_url
+            'image_url': image.image_url,
+            'date_added' : image.date_added,
+            'last_updated' : image.last_updated
         }), 200
     return jsonify({'message': 'Image not found'}), 404
 
@@ -66,7 +77,9 @@ def get_all_images():
             result.append({
                 'gallery_id': image.gallery_id,
                 'shoe_detail_id': image.shoe_detail_id,
-                'image_url': image.image_url
+                'image_url': image.image_url,
+                'date_added' : image.date_added,
+                'last_updated' : image.last_updated
             })
         return jsonify(result), 200
     return jsonify({'message': 'No images found'}), 404
