@@ -76,12 +76,21 @@
     align-items: center;
   }
   
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px; /* Atur jarak antara title dan search bar */
+  }
+  
   .search-bar {
+    display: flex;
     padding: 10px;
     width: 300px;
     border-radius: 8px;
     border: none;
-    margin-bottom: 40px;
+    justify-content: center;
+    align-items: center;
   }
   
   .product-grid {

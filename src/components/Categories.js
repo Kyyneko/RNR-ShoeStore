@@ -5,7 +5,10 @@ function Categories() {
   return (
     <div className="categories-page">
       <h2 className="best-product-title">Best Product R&R</h2>
-      <input type="text" placeholder="Cari di R&R" className="search-bar" />
+      <div className="search-container">
+        <input type="text" placeholder="Cari di R&R" className="search-bar" />
+      </div>
+      
       
       <div className="product-grid">
         <div className="product-card">

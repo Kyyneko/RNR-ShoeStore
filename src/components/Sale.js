@@ -1,44 +1,55 @@
 import React from 'react';
-import './Sale.css';
+import './Sale.css'; 
 
 function Sale() {
+  // Data produk yang dapat dimodifikasi
+  const products = [
+    {
+      id: 1,
+      discount: "-40%",
+      name: "NIKE Lorem Ipsum",
+      price: "Rp. 1.019.400",
+      originalPrice: "Rp. 1.699.000",
+      image: "/images/nike-air.png", 
+    },
+    {
+      id: 2,
+      discount: "-50%",
+      name: "ADIDAS Lorem Ipsum",
+      price: "Rp. 1.349.500",
+      originalPrice: "Rp. 2.699.000",
+      image: "/images/sepatu2.png", 
+    },
+    {
+      id: 3,
+      discount: "-70%",
+      name: "ADIDAS Lorem Ipsum",
+      price: "Rp. 799.900",
+      originalPrice: "Rp. 2.699.000",
+      image: "/images/adidas.png", 
+    },
+  ];
+
   return (
-    <div className="categories-page">
-      <h2 className="best-sale-title">10.10 SALE</h2>
-      
+    <div className="sale-page">
+      <h1 className="sale-title">10.10 SALE!</h1>
       <div className="product-grid">
-        <div className="product-card">
-          <img src="/images/sepatu2.png" alt="Product 1" className="product-image" />
-          <div className="product-details">
-            <span className="product-category">Men Original</span>
-            <h3 className="product-name">NIKE Lorem Ipsum</h3>
-            <p className="product-price">Rp. 1,699,000</p>
+        {products.map((product) => (
+          <div className="product-card" key={product.id}>
+            <div className="discount">{product.discount} OFF!</div>
+            <img src={product.image} alt={product.name} className="product-image" />
+            <div className="product-details">
+              <p className="product-category">Men Original</p>
+              <p className="product-name">{product.name}</p>
+              <p className="product-price">
+                <span className="original-price">{product.originalPrice}</span> <br />
+                {product.price}
+              </p>
+              <button className="cart-btn">+</button>
+              <button className="wishlist-btn">❤</button>
+            </div>
           </div>
-          <button className="wishlist-btn"><i className="fas fa-heart"></i></button>
-          <button className="cart-btn"><i className="fas fa-plus"></i></button>
-        </div>
-
-        <div className="product-card">
-          <img src="/images/adidas.png" alt="Product 2" className="product-image" />
-          <div className="product-details">
-            <span className="product-category">Men Original</span>
-            <h3 className="product-name">ADIDAS Lorem Ipsum</h3>
-            <p className="product-price">Rp. 2,699,000</p>
-          </div>
-          <button className="wishlist-btn"><i className="fas fa-heart"></i></button>
-          <button className="cart-btn"><i className="fas fa-plus"></i></button>
-        </div>
-
-        <div className="product-card">
-          <img src="/images/nike-air.png" alt="Product 3" className="product-image" />
-          <div className="product-details">
-            <span className="product-category">Unisex Original</span>
-            <h3 className="product-name">NIKE AIR Lorem Ipsum</h3>
-            <p className="product-price">Rp. 1,899,000</p>
-          </div>
-          <button className="wishlist-btn"><i className="fas fa-heart"></i></button>
-          <button className="cart-btn"><i className="fas fa-plus"></i></button>
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import Categories from './components/Categories';
 import Sale from './components/Sale';
+import SignIn from './components/SignIn';
 
 function App() {
   return (
@@ -19,7 +20,10 @@ function App() {
             </Link>
           </nav>
           <div className="auth-buttons">
-            <button className="signin">Sign in</button>
+            {/* Gunakan Link untuk mengarahkan ke /signin saat tombol Sign in ditekan */}
+            <Link to="/signin" className="signin-button">
+              <button className="signin">Sign in</button>
+            </Link>
             <button className="signup">Sign Up</button>
           </div>
         </header>
@@ -43,6 +47,7 @@ function App() {
 
           <Route path="/categories" element={<Categories />} />
           <Route path="/sale" element={<Sale />} />
+          <Route path="/signin" element={<SignIn />} /> {/* Route ke halaman SignIn */}
         </Routes>
       </div>
     </Router>
