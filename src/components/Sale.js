@@ -26,7 +26,7 @@ function Sale() {
       name: "ADIDAS Lorem Ipsum",
       price: "Rp. 799.900",
       originalPrice: "Rp. 2.699.000",
-      image: "/images/adidas.png", 
+      image: "/images/adidas_trail_run.png", 
     },
   ];
 

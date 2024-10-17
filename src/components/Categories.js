@@ -23,7 +23,7 @@ function Categories() {
         </div>
 
         <div className="product-card">
-          <img src="/images/adidas.png" alt="Product 2" className="product-image" />
+          <img src="/images/adidas_trail_run.png" alt="Product 2" className="product-image" />
           <div className="product-details">
             <span className="product-category">Men Original</span>
             <h3 className="product-name">ADIDAS Lorem Ipsum</h3>

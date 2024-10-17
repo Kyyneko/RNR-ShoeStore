@@ -4,6 +4,7 @@ import './App.css';
 import Categories from './components/Categories';
 import Sale from './components/Sale';
 import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
@@ -24,7 +25,10 @@ function App() {
             <Link to="/signin" className="signin-button">
               <button className="signin">Sign in</button>
             </Link>
-            <button className="signup">Sign Up</button>
+            {/* Gunakan Link untuk mengarahkan ke /signup saat tombol Sign Up ditekan */}
+            <Link to="/signup" className="signup-button">
+              <button className="signup">Sign Up</button>
+            </Link>
           </div>
         </header>
 
@@ -40,14 +44,15 @@ function App() {
                 </p>
               </div>
               <div className="image-container">
-                <img src="/images/sepatu2.png" alt="Shoes" />
+                <img src="/images/sneakers_nike.png" alt="Shoes" />
               </div>
             </section>
           } />
 
           <Route path="/categories" element={<Categories />} />
           <Route path="/sale" element={<Sale />} />
-          <Route path="/signin" element={<SignIn />} /> {/* Route ke halaman SignIn */}
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
     </Router>
