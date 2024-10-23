@@ -21,7 +21,7 @@ function SignIn() {
           <button type="submit" className="submit-btn">Log In</button>
         </div>
       </form>
-      <p className="register-link">Register</p>
+      <p className='sign-in'>Do you have an account?<a href="/signup">Register</a></p>
     </div>
   );
 }

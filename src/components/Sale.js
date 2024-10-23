@@ -15,7 +15,7 @@ function Sale() {
     {
       id: 2,
       discount: "-50%",
-      name: "ADIDAS Lorem Ipsum",
+      name: "NIke-Air Lorem Ipsum",
       price: "Rp. 1.349.500",
       originalPrice: "Rp. 2.699.000",
       image: "/images/sepatu2.png", 
