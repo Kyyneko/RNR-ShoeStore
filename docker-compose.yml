@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  frontend:
+    build:
+      context: . # Ganti ini dengan path folder frontend kamu
+      dockerfile: dockerfile-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: . # Path folder backend (sudah ada)
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
