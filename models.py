@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pytz
+import enum
 
 db = SQLAlchemy()
 
@@ -63,7 +64,7 @@ class Gallery(db.Model):
 
 class Cart(db.Model):
     id_cart = db.Column(db.Integer, primary_key=True)
-    id_shoe = db.Column(db.Integer, db.ForeignKey('shoe_detail.shoe_detail_id'), nullable=False)
+    shoe_detail_id = db.Column(db.Integer, db.ForeignKey('shoe_detail.shoe_detail_id'), nullable=False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     date_added = db.Column(db.DateTime, default=get_current_time_wita)
@@ -71,7 +72,7 @@ class Cart(db.Model):
 
 class Wishlist(db.Model):
     id_wishlist = db.Column(db.Integer, primary_key=True)
-    id_shoe = db.Column(db.Integer, db.ForeignKey('shoe_detail.shoe_detail_id'), nullable=False)
+    shoe_detail_id = db.Column(db.Integer, db.ForeignKey('shoe_detail.shoe_detail_id'), nullable=False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     date_added = db.Column(db.DateTime, default=get_current_time_wita)
 
@@ -84,14 +85,22 @@ class Wallet(db.Model):
 
 class Discount(db.Model):
     id_discount = db.Column(db.Integer, primary_key=True)
-    id_shoe = db.Column(db.Integer, db.ForeignKey('shoe_detail.shoe_detail_id'), nullable=False)
+    shoe_detail_id = db.Column(db.Integer, db.ForeignKey('shoe_detail.shoe_detail_id'), nullable=False)
     discount_code = db.Column(db.String(50), unique=True, nullable=False)
     discount_value = db.Column(db.Numeric(5, 2), nullable=False)
     date_added = db.Column(db.DateTime, default=get_current_time_wita)
     expiration_date = db.Column(db.Date, nullable=False)
 
-class SearchHistory(db.Model):
-    id_search = db.Column(db.Integer, primary_key=True)
+# Enum untuk jenis interaksi
+class InteractionType(enum.Enum):
+    view = "view"
+    wishlist = "wishlist"
+    cart = "cart"
+    order = "order"
+
+class UserInteraction(db.Model):
+    interaction_id = db.Column(db.Integer, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
-    search_term = db.Column(db.String(255), nullable=False)
-    date_searched = db.Column(db.DateTime, default=get_current_time_wita)
+    shoe_detail_id = db.Column(db.Integer, db.ForeignKey('shoe_detail.shoe_detail_id'), nullable=False)
+    interaction_type = db.Column(db.Enum(InteractionType), nullable=False)  # Menggunakan Enum untuk jenis interaksi
+    interaction_date = db.Column(db.DateTime, default=get_current_time_wita)
